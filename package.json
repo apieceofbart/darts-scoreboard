@@ -1,0 +1,33 @@
+{
+  "name": "darts-scoreboard",
+  "version": "1.0.0",
+  "description": "React app for keeping score in dart games",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "webpack --progress --colors",
+    "build:watch": "webpack --progress --colors --watch",
+    "start": "webpack-dev-server"
+  },
+  "keywords": [
+    "darts",
+    "react",
+    "redux"
+  ],
+  "author": "Bartek Kozera",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-latest": "^6.16.0",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-redux": "^5.0.1",
+    "redux": "^3.6.0"
+  }
+}
