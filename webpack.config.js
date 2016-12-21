@@ -11,14 +11,11 @@ module.exports = {
     port: 1337
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          presets: ['latest']
-        }
+        use: 'babel-loader',
+        exclude: /node_modules/
       }
     ]
   }

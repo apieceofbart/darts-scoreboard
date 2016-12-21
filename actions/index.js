@@ -8,8 +8,8 @@ let nextPlayerId = 0;
 export function addPlayer(name) {
   return {
     type: ADD_PLAYER,
-    id: nextPlayerId++
-    name,
+    id: nextPlayerId++,
+    name
   }
 };
 

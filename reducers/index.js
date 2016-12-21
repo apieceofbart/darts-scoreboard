@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE } from './actions'
+import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE } from '../actions'
 
 function players(state = [], action) {
   switch (action.type) {
