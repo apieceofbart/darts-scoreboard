@@ -1,0 +1,11 @@
+* {
+  font-family: sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+input {
+  border: 1px solid red;
+}
