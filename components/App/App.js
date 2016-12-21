@@ -1,6 +1,6 @@
 import React from 'react'
-import AddPlayer from './AddPlayer'
-import PlayersList from './PlayersList'
+import AddPlayer from '../AddPlayer'
+import PlayersList from '../Players/PlayersList'
 import './App.css'
 
 const App = () => (

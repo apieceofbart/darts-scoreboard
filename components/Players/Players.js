@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import Player from './Player'
+import './Players.css'
 
 const Players = ({ players }) => {
   const playersList = players.map(player =>

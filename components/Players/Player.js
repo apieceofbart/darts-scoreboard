@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import './Player.css'
 
 const Player = ({ name }) => (
   <li>{name}</li>
