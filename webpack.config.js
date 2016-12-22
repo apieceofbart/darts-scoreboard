@@ -1,6 +1,8 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const lessLoader = ExtractTextPlugin.extract('css-loader?sourceMap!less-loader?sourceMap');
+
 module.exports = {
   entry: './index.js',
   output: {
@@ -19,9 +21,9 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.css$/,
+        test: /\.less$/,
         exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('css-loader?sourceMap')
+        loader: lessLoader
       }
     ]
   },

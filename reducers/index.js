@@ -1,7 +1,26 @@
 import { combineReducers } from 'redux'
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE } from '../actions'
+import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN } from '../actions'
+
+const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
+
+
+const isPlayerLast = (players, player) => players.indexOf(player) === players.length -1;
+
+
+const moveDown = (players, player) => {
+  const playerId = players.indexOf(player);
+
+  return [...players.slice(0, playerId), players[playerId+1], players[playerId], ...players.slice(playerId+2)];
+}
+
+const moveUp = (players, player) => {
+  const playerId = players.indexOf(player);
+
+  return [...players.slice(0, playerId - 1), players[playerId], players[playerId-1], ...players.slice(playerId+1)];
+}
 
 function players(state = [], action) {
+  const currentPlayer = state.filter(player => player.id === action.id)[0];
   switch (action.type) {
     case ADD_PLAYER:
       return [
@@ -27,6 +46,15 @@ function players(state = [], action) {
         }
         return player;
       })
+    case MOVE_PLAYER_UP:
+      if (!isPlayerFirst(state, currentPlayer)) {
+        return moveUp(state, currentPlayer);
+      }
+      return state;
+    case MOVE_PLAYER_DOWN:
+      if (!isPlayerLast(state, currentPlayer)) {
+        return moveDown(state, currentPlayer);
+      }
     default:
       return state
   }

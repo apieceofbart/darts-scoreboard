@@ -1,10 +1,26 @@
 import { connect } from 'react-redux'
 import Players from './Players'
+import { removePlayer, movePlayerUp, movePlayerDown } from '../../actions'
 
 const mapStateToProps = state => ({ players: state.players });
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onPlayerRemove: id => {
+      dispatch(removePlayer(id));
+    },
+    onPlayerMoveUp: id => {
+      dispatch(movePlayerUp(id));
+    },
+    onPlayerMoveDown: id => {
+      dispatch(movePlayerDown(id));
+    }
+  }
+}
+
 const PlayersList = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Players)
 
 export default PlayersList
