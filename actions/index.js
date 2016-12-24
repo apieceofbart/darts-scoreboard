@@ -4,9 +4,9 @@ export const EDIT_PLAYER = 'EDIT_PLAYER';
 export const CHANGE_SCORE = 'CHANGE_SCORE';
 export const MOVE_PLAYER_UP = 'MOVE_PLAYER_UP';
 export const MOVE_PLAYER_DOWN = 'MOVE_PLAYER_DOWN';
+import { initialStore } from '../defaults/'
 
-
-let nextPlayerId = 0;
+let nextPlayerId = initialStore.players.length || 0;
 
 export function addPlayer(name) {
   return {

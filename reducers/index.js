@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux'
 import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN } from '../actions'
+import { hits } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
 
-
 const isPlayerLast = (players, player) => players.indexOf(player) === players.length -1;
-
 
 const moveDown = (players, player) => {
   const playerId = players.indexOf(player);
@@ -27,7 +26,9 @@ function players(state = [], action) {
         ...state,
         {
           name: action.name,
-          id: action.id
+          id: action.id,
+          score: 0,
+          hits
         }
       ]
     case REMOVE_PLAYER:

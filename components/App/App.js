@@ -1,6 +1,7 @@
 import React from 'react'
 import AddPlayer from '../AddPlayer'
 import PlayersList from '../Players/PlayersList'
+import ScoreTable from '../ScoreTable/ScoreTable'
 import { Link } from 'react-router'
 import './App.less'
 
@@ -8,7 +9,7 @@ const App = ({params}) => {
   const template = params.stage ?
   (
     <div>
-      <PlayersList />
+      <ScoreTable />
     </div>
   ) :
   (
