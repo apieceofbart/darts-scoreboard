@@ -4,8 +4,7 @@ import { removePlayer, movePlayerUp, movePlayerDown } from '../../actions'
 
 const mapStateToProps = state => ({ players: state.players });
 
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => ({
     onPlayerRemove: id => {
       dispatch(removePlayer(id));
     },
@@ -15,8 +14,7 @@ const mapDispatchToProps = dispatch => {
     onPlayerMoveDown: id => {
       dispatch(movePlayerDown(id));
     }
-  }
-}
+});
 
 const PlayersList = connect(
   mapStateToProps,

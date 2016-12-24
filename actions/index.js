@@ -34,6 +34,7 @@ export function editPlayer(id, name) {
 export function changeScore(id, score) {
   return {
     type: CHANGE_SCORE,
+    id,
     score
   }
 };
