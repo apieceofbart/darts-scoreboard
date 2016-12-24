@@ -2,7 +2,7 @@ import React from 'react'
 import AddPlayer from '../AddPlayer'
 import PlayersList from '../Players/PlayersList'
 import ScoreTable from '../ScoreTable/ScoreTable'
-import ScoreChanger from '../ScoreChanger/ScoreChanger'
+import HitRecorder from '../HitRecorder/HitRecorder'
 import { Link } from 'react-router'
 import './App.less'
 
@@ -11,7 +11,7 @@ const App = ({params}) => {
   (
     <div>
       <ScoreTable />
-      <ScoreChanger />
+      <HitRecorder />
     </div>
   ) :
   (

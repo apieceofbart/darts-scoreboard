@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN } from '../actions'
+import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN } from '../actions'
 import { hits } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
@@ -44,6 +44,15 @@ function players(state = [], action) {
       return state.map(player => {
         if (player.id === action.id) {
           return { ...player, score: action.score }
+        }
+        return player;
+      })
+    case RECORD_HIT:
+      return state.map(player => {
+        if (player.id === action.id) {
+          const hitCount = Math.min(player.hits[action.hit] + 1, 3);
+          const hits = {...player.hits, [action.hit]: hitCount};
+          return {...player, hits};
         }
         return player;
       })
