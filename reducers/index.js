@@ -18,6 +18,14 @@ const moveUp = (players, player) => {
   return [...players.slice(0, playerId - 1), players[playerId], players[playerId-1], ...players.slice(playerId+1)];
 }
 
+const updateHits = (hits, currentHit) => {
+  if (typeof hits[currentHit] === 'number') {
+    const hitCount = Math.min(hits[currentHit] + 1, 3);
+    return {...hits, [currentHit]: hitCount};
+  }
+  return hits;
+}
+
 function players(state = [], action) {
   const currentPlayer = state.filter(player => player.id === action.id)[0];
   switch (action.type) {
@@ -50,8 +58,7 @@ function players(state = [], action) {
     case RECORD_HIT:
       return state.map(player => {
         if (player.id === action.id) {
-          const hitCount = Math.min(player.hits[action.hit] + 1, 3);
-          const hits = {...player.hits, [action.hit]: hitCount};
+          const hits = updateHits(player.hits, action.hit);
           return {...player, hits};
         }
         return player;
