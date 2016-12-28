@@ -5,6 +5,7 @@ export const CHANGE_SCORE = 'CHANGE_SCORE';
 export const RECORD_HIT = 'RECORD_HIT';
 export const MOVE_PLAYER_UP = 'MOVE_PLAYER_UP';
 export const MOVE_PLAYER_DOWN = 'MOVE_PLAYER_DOWN';
+export const NEXT_PLAYER = 'NEXT_PLAYER';
 import { initialStore } from '../defaults/'
 
 let nextPlayerId = initialStore.players.length || 0;
@@ -59,5 +60,11 @@ export function movePlayerDown(id) {
   return {
     type: MOVE_PLAYER_DOWN,
     id
+  }
+}
+
+export function nextPlayer() {
+  return {
+    type: NEXT_PLAYER
   }
 }

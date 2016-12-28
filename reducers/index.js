@@ -1,4 +1,4 @@
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN } from '../actions'
+import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER } from '../actions'
 import { hits } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
@@ -42,21 +42,31 @@ const updateScores = (player, hit, players) => {
   return players;
 }
 
+const getCurrentPlayer = (players, curentPlayerId) => {
+  return players.find(player => player.id === curentPlayerId);
+}
+
 const main = (state = {}, action) => {
   const updatedPlayers = players(state.players, action);
+  let currentPlayerId = updatedPlayers[0].id;
   switch (action.type) {
     case REMOVE_PLAYER:
     case MOVE_PLAYER_UP:
     case MOVE_PLAYER_DOWN:
-      const currentPlayerId = updatedPlayers[0].id;
       return {...state, players: updatedPlayers, currentPlayerId};
+    case NEXT_PLAYER:
+      const players = state.players;
+      const currentPlayer = getCurrentPlayer(state.players, state.curentPlayerId);
+      const indexOfPlayer = players.indexOf(player);
+      curentPlayerId = players[(indexOfPlayer === players.length - 1) ? 0 : players(indexOfPlayer + 1)].id;
+      return {...state, currentPlayerId}
     default:
-      return {...state, players: updatedPlayers}
+      return {...state, currentPlayerId}
   }
 }
 
 const players = (players = [], action) => {
-  const currentPlayer = players.filter(player => player.id === action.id)[0];
+  const currentPlayer = players.find(player => player.id === action.id);
   switch (action.type) {
     case ADD_PLAYER:
       return [
