@@ -20,10 +20,27 @@ const moveUp = (players, player) => {
 
 const updateHits = (hits, currentHit) => {
   if (typeof hits[currentHit] === 'number') {
-    const hitCount = Math.min(hits[currentHit] + 1, 3);
-    return {...hits, [currentHit]: hitCount};
+    return {...hits, [currentHit]: hits[currentHit] + 1};
   }
   return hits;
+}
+
+const hasPlayerClosed = (hits, number) => {
+  return hits[number] >= 3;
+}
+
+
+const updateScores = (player, hit, players) => {
+  if (hasPlayerClosed(player.hits, hit)) {
+    const extraHits = player.hits[hit] - 3;
+    return players.map(p => {
+      if (!hasPlayerClosed(p.hits, hit) && p !== player){
+        p.score += hit;
+      }
+      return p;
+    })
+  }
+  return players;
 }
 
 function players(state = [], action) {
@@ -46,7 +63,7 @@ function players(state = [], action) {
         if (player.id === action.id) {
           return { ...player, name: action.name }
         }
-        return player
+        return player;
       })
     case CHANGE_SCORE:
       return state.map(player => {
@@ -56,13 +73,14 @@ function players(state = [], action) {
         return player;
       })
     case RECORD_HIT:
-      return state.map(player => {
+      const stateAfterHitRecorded  = state.map(player => {
         if (player.id === action.id) {
           const hits = updateHits(player.hits, action.hit);
           return {...player, hits};
         }
         return player;
-      })
+      });
+      return updateScores(currentPlayer, action.hit, stateAfterHitRecorded);
     case MOVE_PLAYER_UP:
       if (!isPlayerFirst(state, currentPlayer)) {
         return moveUp(state, currentPlayer);

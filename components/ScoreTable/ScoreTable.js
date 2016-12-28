@@ -12,7 +12,10 @@ let ScoreTable = ({ players }) => {
     </tr>
   )
   const tableBody = players.map(player => {
-    const playerHits = Object.keys(player.hits).reverse().map(hit => <td key={hit}>{player.hits[hit]}</td>);
+    const playerHits = Object.keys(player.hits).reverse().map(hit => {
+      const shownHits = Math.min(player.hits[hit],3);
+      return <td key={hit}>{shownHits}</td>;
+    });
 
     return (
       <tr key={player.id}>
