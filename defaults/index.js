@@ -14,5 +14,6 @@ export const initialStore = {
     { id: 0, name: "baro", score: 0, hits},
     { id: 1, name: "jaro", score: 0, hits},
     { id: 2, name: "kuba", score: 0, hits}
-  ]
+  ],
+  currentPlayerId: 0
 };

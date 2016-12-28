@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN } from '../actions'
 import { hits } from '../defaults/'
 
@@ -43,12 +42,25 @@ const updateScores = (player, hit, players) => {
   return players;
 }
 
-function players(state = [], action) {
-  const currentPlayer = state.filter(player => player.id === action.id)[0];
+const main = (state = {}, action) => {
+  const updatedPlayers = players(state.players, action);
+  switch (action.type) {
+    case REMOVE_PLAYER:
+    case MOVE_PLAYER_UP:
+    case MOVE_PLAYER_DOWN:
+      const currentPlayerId = updatedPlayers[0].id;
+      return {...state, players: updatedPlayers, currentPlayerId};
+    default:
+      return {...state, players: updatedPlayers}
+  }
+}
+
+const players = (players = [], action) => {
+  const currentPlayer = players.filter(player => player.id === action.id)[0];
   switch (action.type) {
     case ADD_PLAYER:
       return [
-        ...state,
+        ...players,
         {
           name: action.name,
           id: action.id,
@@ -57,46 +69,44 @@ function players(state = [], action) {
         }
       ]
     case REMOVE_PLAYER:
-      return state.filter(player => player.id !== action.id);
+      return players.filter(player => player.id !== action.id);
     case EDIT_PLAYER:
-      return state.map(player => {
+      return players.map(player => {
         if (player.id === action.id) {
           return { ...player, name: action.name }
         }
         return player;
       })
     case CHANGE_SCORE:
-      return state.map(player => {
+      return players.map(player => {
         if (player.id === action.id) {
           return { ...player, score: action.score }
         }
         return player;
       })
     case RECORD_HIT:
-      const stateAfterHitRecorded  = state.map(player => {
+      const playersAfterHitRecorded  = players.map(player => {
         if (player.id === action.id) {
           const hits = updateHits(player.hits, action.hit);
           return {...player, hits};
         }
         return player;
       });
-      return updateScores(currentPlayer, action.hit, stateAfterHitRecorded);
+      return updateScores(currentPlayer, action.hit, playersAfterHitRecorded);
     case MOVE_PLAYER_UP:
-      if (!isPlayerFirst(state, currentPlayer)) {
-        return moveUp(state, currentPlayer);
+      if (!isPlayerFirst(players, currentPlayer)) {
+        return moveUp(players, currentPlayer);
       }
-      return state;
+      return players;
     case MOVE_PLAYER_DOWN:
-      if (!isPlayerLast(state, currentPlayer)) {
-        return moveDown(state, currentPlayer);
+      if (!isPlayerLast(players, currentPlayer)) {
+        return moveDown(players, currentPlayer);
       }
     default:
-      return state
+      return players
   }
 }
 
-const dartsApp = combineReducers({
-  players
-})
+const dartsApp = main;
 
 export default dartsApp
