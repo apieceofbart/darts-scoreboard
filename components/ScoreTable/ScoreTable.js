@@ -1,14 +1,16 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import './ScoreTable.less'
 
-const mapStateToProps = state => ({ players: state.players });
+const mapStateToProps = state => ({ players: state.players, currentPlayerId: state.currentPlayerId });
 
-let ScoreTable = ({ players }) => {
+let ScoreTable = ({ players, currentPlayerId }) => {
+  const hits = Object.keys(players[0].hits).reverse().map(h=> <th key={h}>{h}</th>);
   const tableHeader = (
     <tr>
       <th key="player">Player</th>
       <th key="score">Score</th>
-      {Object.keys(players[0].hits).reverse().map(h=> <th key={h}>{h}</th>)}
+      {hits}
     </tr>
   )
   const tableBody = players.map(player => {
@@ -17,8 +19,10 @@ let ScoreTable = ({ players }) => {
       return <td key={hit}>{shownHits}</td>;
     });
 
+    const highlight = (player.id === currentPlayerId) ? 'highlight' : '';
+
     return (
-      <tr key={player.id}>
+      <tr key={player.id} className={highlight}>
         <td key="name">
           {player.name}
         </td>
