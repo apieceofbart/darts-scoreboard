@@ -61,7 +61,7 @@ const main = (state = {}, action) => {
       curentPlayerId = players[(indexOfPlayer === players.length - 1) ? 0 : players(indexOfPlayer + 1)].id;
       return {...state, currentPlayerId}
     default:
-      return {...state, currentPlayerId}
+      return {...state, players: updatedPlayers}
   }
 }
 
