@@ -12,16 +12,15 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-let HitRecorder = ({ currentPlayerId, onHitRecorded }) => {
+let HitRecorder = ({ onHitRecorded, currentPlayerId }) => {
   let playerId, hit;
 
   const onSubmit = e => {
     e.preventDefault();
-    onHitRecorded(parseInt(playerId.value), parseInt(hit.value));
+    onHitRecorded(currentPlayerId, parseInt(hit.value));
   }
   return (
     <form onSubmit={onSubmit}>
-      <label htmlFor="playerId">Player ID: <input ref={n => playerId = n } name="playerId" type="number" defaultValue={currentPlayerId} min={0} /></label>
       <label htmlFor="hit">Number hit: <input ref={n => hit = n} name="hit" type="number" defaultValue={20} min={15} max={25}/></label>
       <button type="submit">Record Hit</button>
     </form>

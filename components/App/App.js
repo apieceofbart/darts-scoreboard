@@ -3,6 +3,7 @@ import AddPlayer from '../AddPlayer'
 import PlayersList from '../Players/PlayersList'
 import ScoreTable from '../ScoreTable/ScoreTable'
 import HitRecorder from '../HitRecorder/HitRecorder'
+import NextPlayerButton from '../NextPlayerButton/NextPlayerButton'
 import { Link } from 'react-router'
 import './App.less'
 
@@ -10,6 +11,7 @@ const App = ({params}) => {
   const template = params.stage ?
   (
     <div>
+      <NextPlayerButton />
       <ScoreTable />
       <HitRecorder />
     </div>

@@ -46,7 +46,7 @@ const getCurrentPlayer = (players, curentPlayerId) => {
   return players.find(player => player.id === curentPlayerId);
 }
 
-const main = (state = {}, action) => {
+function main(state = {}, action) {
   const updatedPlayers = players(state.players, action);
   let currentPlayerId = updatedPlayers[0].id;
   switch (action.type) {
@@ -56,16 +56,17 @@ const main = (state = {}, action) => {
       return {...state, players: updatedPlayers, currentPlayerId};
     case NEXT_PLAYER:
       const players = state.players;
-      const currentPlayer = getCurrentPlayer(state.players, state.curentPlayerId);
-      const indexOfPlayer = players.indexOf(player);
-      curentPlayerId = players[(indexOfPlayer === players.length - 1) ? 0 : players(indexOfPlayer + 1)].id;
+      const currentPlayer = getCurrentPlayer(state.players, state.currentPlayerId);
+      const indexOfPlayer = players.indexOf(currentPlayer);
+      const newCurrentPlayerId = (indexOfPlayer === players.length - 1) ? 0 : indexOfPlayer + 1;
+      currentPlayerId = players[newCurrentPlayerId].id;
       return {...state, currentPlayerId}
     default:
       return {...state, players: updatedPlayers}
   }
 }
 
-const players = (players = [], action) => {
+function players(players = [], action) {
   const currentPlayer = players.find(player => player.id === action.id);
   switch (action.type) {
     case ADD_PLAYER:
