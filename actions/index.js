@@ -6,6 +6,7 @@ export const RECORD_HIT = 'RECORD_HIT';
 export const MOVE_PLAYER_UP = 'MOVE_PLAYER_UP';
 export const MOVE_PLAYER_DOWN = 'MOVE_PLAYER_DOWN';
 export const NEXT_PLAYER = 'NEXT_PLAYER';
+export const START_GAME = 'START_GAME';
 import { initialStore } from '../defaults/'
 
 let nextPlayerId = initialStore.players.length || 0;
@@ -66,5 +67,11 @@ export function movePlayerDown(id) {
 export function nextPlayer() {
   return {
     type: NEXT_PLAYER
+  }
+}
+
+export function startGame() {
+  return {
+    type: START_GAME
   }
 }

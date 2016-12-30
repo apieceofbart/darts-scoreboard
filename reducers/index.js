@@ -1,4 +1,4 @@
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER } from '../actions'
+import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, START_GAME } from '../actions'
 import { hits } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
@@ -50,6 +50,8 @@ function main(state = {}, action) {
   const updatedPlayers = players(state.players, action);
   let currentPlayerId = updatedPlayers[0].id;
   switch (action.type) {
+    case START_GAME:
+      return {...state, players: updatedPlayers, isGameOn: true }
     case REMOVE_PLAYER:
     case MOVE_PLAYER_UP:
     case MOVE_PLAYER_DOWN:
