@@ -6,7 +6,7 @@ export const RECORD_HIT = 'RECORD_HIT';
 export const MOVE_PLAYER_UP = 'MOVE_PLAYER_UP';
 export const MOVE_PLAYER_DOWN = 'MOVE_PLAYER_DOWN';
 export const NEXT_PLAYER = 'NEXT_PLAYER';
-export const START_GAME = 'START_GAME';
+export const CHANGE_GAME_STAGE = 'CHANGE_GAME_STAGE';
 import { initialStore } from '../defaults/'
 
 let nextPlayerId = initialStore.present.players.length || 0;
@@ -70,8 +70,9 @@ export function nextPlayer() {
   }
 }
 
-export function startGame() {
+export function changeGameStage(stage) {
   return {
-    type: START_GAME
+    type: CHANGE_GAME_STAGE,
+    stage
   }
 }

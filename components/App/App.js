@@ -7,7 +7,8 @@ import HitRecorder from '../HitRecorder/HitRecorder'
 import NextPlayerButton from '../NextPlayerButton/NextPlayerButton'
 import HitsHistory from '../HitsHistory/HitsHistory'
 import UndoRedo from '../UndoRedo/UndoRedo'
-import { startGame } from '../../actions'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
+import { changeGameStage } from '../../actions'
 import { BEFORE_GAME, DURING_GAME, AFTER_GAME } from '../../defaults/'
 import './App.less'
 
@@ -17,11 +18,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   startGame: () => {
-    dispatch(startGame())
+    dispatch(changeGameStage(DURING_GAME))
+  },
+  goToBeforeGame: () => {
+    dispatch(changeGameStage(BEFORE_GAME));
+    dispatch(UndoActionCreators.clearHistory());
   }
 });
 
-let App = ({ gameStage, startGame }) => {
+let App = ({ gameStage, startGame, goToBeforeGame }) => {
   switch (gameStage) {
     case BEFORE_GAME:
       return (
@@ -42,7 +47,12 @@ let App = ({ gameStage, startGame }) => {
         </div>
       );
     case AFTER_GAME:
-      return <h1>Game is over!</h1>
+      return (
+        <div>
+          <h1>Game is over!</h1>
+          <button onClick={goToBeforeGame}>New game</button>
+        </div>
+      );
   }
 }
 

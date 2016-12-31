@@ -1,6 +1,6 @@
 import undoable, { distinctState, excludeAction } from 'redux-undo'
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, START_GAME } from '../actions'
-import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME } from '../defaults/'
+import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, CHANGE_GAME_STAGE } from '../actions'
+import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME, initialStore } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
 
@@ -45,10 +45,11 @@ const updateScores = (player, hit, players) => {
   if (hasPlayerClosed(player.hits, hit)) {
     const extraHits = player.hits[hit] - 3;
     return players.map(p => {
+      let score = p.score;
       if (!hasPlayerClosed(p.hits, hit) && p !== player){
-        p.score += hit;
+        score += hit;
       }
-      return p;
+      return {...p, score};
     })
   }
   return players;
@@ -58,12 +59,13 @@ const getCurrentPlayer = (players, curentPlayerId) => {
   return players.find(player => player.id === curentPlayerId);
 }
 
-function main(state = {}, action) {
+function main(state = initialStore.present, action) {
   const updatedPlayers = players(state.players, action);
   let currentPlayerId = updatedPlayers[0].id;
   switch (action.type) {
-    case START_GAME:
-      return {...state, players: updatedPlayers, gameStage: DURING_GAME }
+    case CHANGE_GAME_STAGE:
+      if(action.stage === BEFORE_GAME) return initialStore.present;
+      return {...state, players: updatedPlayers, gameStage: action.stage }
     case REMOVE_PLAYER:
     case MOVE_PLAYER_UP:
     case MOVE_PLAYER_DOWN:
@@ -110,7 +112,7 @@ function players(players = [], action) {
     case CHANGE_SCORE:
       return players.map(player => {
         if (player.id === action.id) {
-          return { ...player, score: action.score }
+          return {...player, score: action.score }
         }
         return player;
       })
@@ -138,7 +140,7 @@ function players(players = [], action) {
 }
 
 const dartsApp = undoable(main, {
-  filter: excludeAction([ADD_PLAYER, START_GAME])
+  filter: excludeAction([ADD_PLAYER, CHANGE_GAME_STAGE])
 });
 
 export default dartsApp
