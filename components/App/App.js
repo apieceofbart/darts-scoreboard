@@ -8,10 +8,11 @@ import NextPlayerButton from '../NextPlayerButton/NextPlayerButton'
 import HitsHistory from '../HitsHistory/HitsHistory'
 import UndoRedo from '../UndoRedo/UndoRedo'
 import { startGame } from '../../actions'
+import { BEFORE_GAME, DURING_GAME, AFTER_GAME } from '../../defaults/'
 import './App.less'
 
 const mapStateToProps = state => ({
-  isGameOn: state.present.isGameOn
+  gameStage: state.present.gameStage
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -20,26 +21,29 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-let App = ({ isGameOn, startGame }) => {
-  const template = isGameOn ?
-  (
-    <div>
-      <NextPlayerButton />
-      <ScoreTable />
-      <HitRecorder />
-      <HitsHistory />
-      <UndoRedo />
-    </div>
-  ) :
-  (
-    <div>
-      <AddPlayer />
-      <PlayersList />
-      <button onClick={startGame}>Start game</button>
-    </div>
-  );
-
-  return template;
+let App = ({ gameStage, startGame }) => {
+  switch (gameStage) {
+    case BEFORE_GAME:
+      return (
+        <div>
+          <AddPlayer />
+          <PlayersList />
+          <button onClick={startGame}>Start game</button>
+        </div>
+      );
+    case DURING_GAME:
+      return (
+        <div>
+          <NextPlayerButton />
+          <ScoreTable />
+          <HitRecorder />
+          <HitsHistory />
+          <UndoRedo />
+        </div>
+      );
+    case AFTER_GAME:
+      return <h1>Game is over!</h1>
+  }
 }
 
 App = connect(

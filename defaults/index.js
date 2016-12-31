@@ -8,6 +8,10 @@ export const hits = {
   15: 0
 }
 
+export const BEFORE_GAME = 0;
+export const DURING_GAME = 1;
+export const AFTER_GAME = 2;
+
 export const initialStore = {
   past: {},
   future: {},
@@ -18,7 +22,7 @@ export const initialStore = {
       { id: 2, name: "kuba", score: 0, hits}
     ],
     currentPlayerId: 0,
-    isGameOn: false,
+    gameStage: BEFORE_GAME,
     lastHit: {}
   }
 };

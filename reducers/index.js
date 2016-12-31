@@ -1,6 +1,6 @@
 import undoable, { distinctState, excludeAction } from 'redux-undo'
 import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, START_GAME } from '../actions'
-import { hits } from '../defaults/'
+import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
 
@@ -56,7 +56,7 @@ function main(state = {}, action) {
   let currentPlayerId = updatedPlayers[0].id;
   switch (action.type) {
     case START_GAME:
-      return {...state, players: updatedPlayers, isGameOn: true }
+      return {...state, players: updatedPlayers, gameStage: DURING_GAME }
     case REMOVE_PLAYER:
     case MOVE_PLAYER_UP:
     case MOVE_PLAYER_DOWN:
