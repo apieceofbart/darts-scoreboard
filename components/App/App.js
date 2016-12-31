@@ -5,6 +5,7 @@ import PlayersList from '../Players/PlayersList'
 import ScoreTable from '../ScoreTable/ScoreTable'
 import HitRecorder from '../HitRecorder/HitRecorder'
 import NextPlayerButton from '../NextPlayerButton/NextPlayerButton'
+import HitsHistory from '../HitsHistory/HitsHistory'
 import { startGame } from '../../actions'
 import './App.less'
 
@@ -25,6 +26,7 @@ let App = ({ isGameOn, startGame }) => {
       <NextPlayerButton />
       <ScoreTable />
       <HitRecorder />
+      <HitsHistory />
     </div>
   ) :
   (
