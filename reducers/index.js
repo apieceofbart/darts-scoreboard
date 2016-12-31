@@ -17,8 +17,12 @@ const moveUp = (players, player) => {
   return [...players.slice(0, playerId - 1), players[playerId], players[playerId-1], ...players.slice(playerId+1)];
 }
 
+const isValidHit = (hits, currentHit) => {
+  return typeof hits[currentHit] === 'number';
+}
+
 const updateHits = (hits, currentHit) => {
-  if (typeof hits[currentHit] === 'number') {
+  if (isValidHit(hits, currentHit)) {
     return {...hits, [currentHit]: hits[currentHit] + 1};
   }
   return hits;
@@ -56,6 +60,9 @@ function main(state = {}, action) {
     case MOVE_PLAYER_UP:
     case MOVE_PLAYER_DOWN:
       return {...state, players: updatedPlayers, currentPlayerId};
+    case RECORD_HIT:
+      if (isValidHit(hits, action.hit)) return {...state, players: updatedPlayers, lastHit: action}
+      return state;
     case NEXT_PLAYER:
       const players = state.players;
       const currentPlayer = getCurrentPlayer(state.players, state.currentPlayerId);

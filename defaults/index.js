@@ -16,5 +16,6 @@ export const initialStore = {
     { id: 2, name: "kuba", score: 0, hits}
   ],
   currentPlayerId: 0,
-  isGameOn: false
+  isGameOn: false,
+  lastHit: {}
 };
