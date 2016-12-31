@@ -22,6 +22,13 @@ const isValidHit = (hits, currentHit) => {
   return typeof hits[currentHit] === 'number';
 }
 
+const isGameOver = (players) => {
+  for (let i = 0; i < players.length; i++) {
+    if (Object.keys(players[i].hits).filter(h => players[i].hits[h] < 3).length === 0) return true
+  }
+  return false;
+}
+
 const updateHits = (hits, currentHit) => {
   if (isValidHit(hits, currentHit)) {
     return {...hits, [currentHit]: hits[currentHit] + 1};
@@ -62,8 +69,10 @@ function main(state = {}, action) {
     case MOVE_PLAYER_DOWN:
       return {...state, players: updatedPlayers, currentPlayerId};
     case RECORD_HIT:
-      if (isValidHit(hits, action.hit)) return {...state, players: updatedPlayers, lastHit: action}
-      return state;
+      if (!isValidHit(hits, action.hit)) return state;
+      const newGameStage =  isGameOver(updatedPlayers) ? AFTER_GAME : DURING_GAME;
+
+      return {...state, players: updatedPlayers, lastHit: action, gameStage: newGameStage}
     case NEXT_PLAYER:
       const players = state.players;
       const currentPlayer = getCurrentPlayer(state.players, state.currentPlayerId);
