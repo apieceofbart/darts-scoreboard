@@ -6,11 +6,12 @@ import ScoreTable from '../ScoreTable/ScoreTable'
 import HitRecorder from '../HitRecorder/HitRecorder'
 import NextPlayerButton from '../NextPlayerButton/NextPlayerButton'
 import HitsHistory from '../HitsHistory/HitsHistory'
+import UndoRedo from '../UndoRedo/UndoRedo'
 import { startGame } from '../../actions'
 import './App.less'
 
 const mapStateToProps = state => ({
-  isGameOn: state.isGameOn
+  isGameOn: state.present.isGameOn
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -27,6 +28,7 @@ let App = ({ isGameOn, startGame }) => {
       <ScoreTable />
       <HitRecorder />
       <HitsHistory />
+      <UndoRedo />
     </div>
   ) :
   (

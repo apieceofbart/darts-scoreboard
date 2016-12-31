@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import './ScoreTable.less'
 
-const mapStateToProps = state => ({ players: state.players, currentPlayerId: state.currentPlayerId });
+const mapStateToProps = state => ({ players: state.present.players, currentPlayerId: state.present.currentPlayerId });
 
 let ScoreTable = ({ players, currentPlayerId }) => {
   const hits = Object.keys(players[0].hits).reverse().map(h=> <th key={h}>{h}</th>);

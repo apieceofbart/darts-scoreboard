@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import Players from './Players'
 import { removePlayer, movePlayerUp, movePlayerDown } from '../../actions'
 
-const mapStateToProps = state => ({ players: state.players });
+const mapStateToProps = state => ({ players: state.present.players });
 
 const mapDispatchToProps = dispatch => ({
     onPlayerRemove: id => {

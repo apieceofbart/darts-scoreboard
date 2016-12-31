@@ -9,7 +9,7 @@ export const NEXT_PLAYER = 'NEXT_PLAYER';
 export const START_GAME = 'START_GAME';
 import { initialStore } from '../defaults/'
 
-let nextPlayerId = initialStore.players.length || 0;
+let nextPlayerId = initialStore.present.players.length || 0;
 
 export function addPlayer(name) {
   return {

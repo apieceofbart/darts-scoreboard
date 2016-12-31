@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { recordHit } from '../../actions'
 
 const mapStateToProps = state => ({
-  currentPlayerId: state.currentPlayerId
+  currentPlayerId: state.present.currentPlayerId
 });
 
 const mapDispatchToProps = dispatch => ({

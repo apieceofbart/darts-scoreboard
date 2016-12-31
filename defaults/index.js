@@ -8,14 +8,17 @@ export const hits = {
   15: 0
 }
 
-
 export const initialStore = {
-  players: [
-    { id: 0, name: "baro", score: 0, hits},
-    { id: 1, name: "jaro", score: 0, hits},
-    { id: 2, name: "kuba", score: 0, hits}
-  ],
-  currentPlayerId: 0,
-  isGameOn: false,
-  lastHit: {}
+  past: {},
+  future: {},
+  present: {
+    players: [
+      { id: 0, name: "baro", score: 0, hits},
+      { id: 1, name: "jaro", score: 0, hits},
+      { id: 2, name: "kuba", score: 0, hits}
+    ],
+    currentPlayerId: 0,
+    isGameOn: false,
+    lastHit: {}
+  }
 };

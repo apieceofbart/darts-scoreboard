@@ -1,3 +1,4 @@
+import undoable, { distinctState, excludeAction } from 'redux-undo'
 import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, START_GAME } from '../actions'
 import { hits } from '../defaults/'
 
@@ -127,6 +128,8 @@ function players(players = [], action) {
   }
 }
 
-const dartsApp = main;
+const dartsApp = undoable(main, {
+  filter: excludeAction([ADD_PLAYER, START_GAME])
+});
 
 export default dartsApp

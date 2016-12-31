@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { nextPlayer } from '../../actions'
 // import './NextPlayerButton.less'
 
-const mapStateToProps = state => ({ players: state.players, currentPlayerId: state.currentPlayerId });
+const mapStateToProps = state => ({ players: state.present.players, currentPlayerId: state.present.currentPlayerId });
 const mapDispatchToProps = dispatch => ({
   onClick: () => {
     dispatch(nextPlayer());

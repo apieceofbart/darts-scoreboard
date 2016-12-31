@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-const mapStateToProps = ({ lastHit, players }) => ({
-  lastHit,
-  players
+const mapStateToProps = state => ({
+  lastHit: state.present.lastHit,
+  players: state.present.players
 })
 
 let HitsHistory = ({ lastHit, players }) => {
