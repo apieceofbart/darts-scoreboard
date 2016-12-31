@@ -42,11 +42,12 @@ export function changeScore(id, score) {
   }
 };
 
-export function recordHit(id, hit) {
+export function recordHit(id, hit, multiplier) {
   return {
     type: RECORD_HIT,
     id,
-    hit
+    hit,
+    multiplier
   }
 };
 

@@ -1,4 +1,4 @@
-import undoable, { distinctState, excludeAction } from 'redux-undo'
+import undoable, { excludeAction } from 'redux-undo'
 import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, CHANGE_GAME_STAGE } from '../actions'
 import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME, initialStore } from '../defaults/'
 
@@ -29,9 +29,9 @@ const isGameOver = (players) => {
   return false;
 }
 
-const updateHits = (hits, currentHit) => {
+const updateHits = (hits, currentHit, multiplier) => {
   if (isValidHit(hits, currentHit)) {
-    return {...hits, [currentHit]: hits[currentHit] + 1};
+    return {...hits, [currentHit]: hits[currentHit] + multiplier};
   }
   return hits;
 }
@@ -41,13 +41,13 @@ const hasPlayerClosed = (hits, number) => {
 }
 
 
-const updateScores = (player, hit, players) => {
+const updateScores = (player, hit, multiplier, players) => {
   if (hasPlayerClosed(player.hits, hit)) {
     const extraHits = player.hits[hit] - 3;
     return players.map(p => {
       let score = p.score;
       if (!hasPlayerClosed(p.hits, hit) && p !== player){
-        score += hit;
+        score += hit * multiplier;
       }
       return {...p, score};
     })
@@ -119,12 +119,12 @@ function players(players = [], action) {
     case RECORD_HIT:
       const playersAfterHitRecorded  = players.map(player => {
         if (player.id === action.id) {
-          const hits = updateHits(player.hits, action.hit);
+          const hits = updateHits(player.hits, action.hit, action.multiplier);
           return {...player, hits};
         }
         return player;
       });
-      return updateScores(currentPlayer, action.hit, playersAfterHitRecorded);
+      return updateScores(currentPlayer, action.hit, action.multiplier, playersAfterHitRecorded);
     case MOVE_PLAYER_UP:
       if (!isPlayerFirst(players, currentPlayer)) {
         return moveUp(players, currentPlayer);
@@ -140,7 +140,14 @@ function players(players = [], action) {
 }
 
 const dartsApp = undoable(main, {
-  filter: excludeAction([ADD_PLAYER, CHANGE_GAME_STAGE])
+  filter: function filterActions(action, currentState, previousHistory) {
+    if (action.type === ADD_PLAYER ||
+      (action.type === CHANGE_GAME_STAGE && action.stage === DURING_GAME)
+    ) {
+      return false;
+    }
+    return true;
+  }
 });
 
 export default dartsApp
