@@ -14,7 +14,8 @@ import { BEFORE_GAME, DURING_GAME, AFTER_GAME } from '../../defaults/'
 import './App.less'
 
 const mapStateToProps = state => ({
-  gameStage: state.present.gameStage
+  gameStage: state.present.gameStage,
+  winner: state.present.winner
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -27,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-let App = ({ gameStage, startGame, goToBeforeGame }) => {
+let App = ({ gameStage, startGame, goToBeforeGame, winner }) => {
   switch (gameStage) {
     case BEFORE_GAME:
       return (
@@ -51,7 +52,7 @@ let App = ({ gameStage, startGame, goToBeforeGame }) => {
     case AFTER_GAME:
       return (
         <div>
-          <h1>Game is over!</h1>
+          <h1>The winner is {winner.name}!</h1>
           <button onClick={goToBeforeGame}>New game</button>
         </div>
       );

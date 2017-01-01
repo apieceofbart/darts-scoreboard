@@ -28,6 +28,10 @@ const hasLeastPoints = (player, players) => {
   return player === players.find(p => p.score === Math.min(...players.map(p => p.score)));
 }
 
+const calculateWinner = players => {
+  if (getWinner(players)) return getWinner(players);
+}
+
 const getWinner = players => {
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
@@ -73,17 +77,19 @@ function main(state = initialStore.present, action) {
   let currentPlayerId = currPlayer.id;
   switch (action.type) {
     case CHANGE_GAME_STAGE:
-      if(action.stage === BEFORE_GAME) return initialStore.present;
-      return {...state, players: updatedPlayers, gameStage: action.stage }
+      if (action.stage === BEFORE_GAME) return initialStore.present;
+      const winner = (action.stage === AFTER_GAME) ? calculateWinner(updatedPlayers) : null;
+      return {...state, players: updatedPlayers, gameStage: action.stage, winner }
     case REMOVE_PLAYER:
     case MOVE_PLAYER_UP:
     case MOVE_PLAYER_DOWN:
       return {...state, players: updatedPlayers, currentPlayerId};
     case RECORD_HIT:
       if (!isValidHit(hits, action.hit)) return state;
-      const newGameStage =  getWinner(updatedPlayers) ? AFTER_GAME : DURING_GAME;
+      const w = getWinner(updatedPlayers);
+      const newGameStage =  w ? AFTER_GAME : DURING_GAME;
 
-      return {...state, players: updatedPlayers, lastHit: action, gameStage: newGameStage}
+      return {...state, players: updatedPlayers, lastHit: action, gameStage: newGameStage, winner: w}
     case NEXT_PLAYER:
       const players = state.players;
       const currentPlayer = getCurrentPlayer(state.players, state.currentPlayerId);
