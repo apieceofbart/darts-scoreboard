@@ -1,6 +1,6 @@
 import undoable, { excludeAction } from 'redux-undo'
 import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, CHANGE_GAME_STAGE } from '../actions'
-import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME, initialStore } from '../defaults/'
+import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME, MAX_ROUNDS, initialStore } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
 
@@ -28,12 +28,12 @@ const hasLeastPoints = (player, players) => {
   return player === players.find(p => p.score === Math.min(...players.map(p => p.score)));
 }
 
-const isGameOver = (players) => {
+const getWinner = players => {
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
-    if (hasPlayerClosedAll(player) && hasLeastPoints(player, players)) return true
+    if (hasPlayerClosedAll(player) && hasLeastPoints(player, players)) return player
   }
-  return false;
+  return null;
 }
 
 const updateHits = (hits, currentHit, multiplier) => {
@@ -68,7 +68,9 @@ const getCurrentPlayer = (players, curentPlayerId) => {
 
 function main(state = initialStore.present, action) {
   const updatedPlayers = players(state.players, action);
-  let currentPlayerId = updatedPlayers[0].id;
+  const currPlayer = updatedPlayers[0];
+
+  let currentPlayerId = currPlayer.id;
   switch (action.type) {
     case CHANGE_GAME_STAGE:
       if(action.stage === BEFORE_GAME) return initialStore.present;
@@ -79,16 +81,20 @@ function main(state = initialStore.present, action) {
       return {...state, players: updatedPlayers, currentPlayerId};
     case RECORD_HIT:
       if (!isValidHit(hits, action.hit)) return state;
-      const newGameStage =  isGameOver(updatedPlayers) ? AFTER_GAME : DURING_GAME;
+      const newGameStage =  getWinner(updatedPlayers) ? AFTER_GAME : DURING_GAME;
 
       return {...state, players: updatedPlayers, lastHit: action, gameStage: newGameStage}
     case NEXT_PLAYER:
       const players = state.players;
       const currentPlayer = getCurrentPlayer(state.players, state.currentPlayerId);
       const indexOfPlayer = players.indexOf(currentPlayer);
-      const newCurrentPlayerId = (indexOfPlayer === players.length - 1) ? 0 : indexOfPlayer + 1;
+      const [ newCurrentPlayerId, newCurrentRound ] = (indexOfPlayer === players.length - 1) ? [0, state.currentRound + 1] : [indexOfPlayer + 1, state.currentRound ];
       currentPlayerId = players[newCurrentPlayerId].id;
-      return {...state, currentPlayerId}
+      if (newCurrentRound > MAX_ROUNDS) {
+        return {...state, gameStage: AFTER_GAME }
+      } else {
+        return {...state, currentPlayerId, currentRound: newCurrentRound}
+      }
     default:
       return {...state, players: updatedPlayers}
   }

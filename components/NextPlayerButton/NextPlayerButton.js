@@ -1,37 +1,27 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { nextPlayer } from '../../actions'
-// import './NextPlayerButton.less'
+// import './NextPlayerButton.less
 
-const mapStateToProps = state => ({ players: state.present.players, currentPlayerId: state.present.currentPlayerId });
 const mapDispatchToProps = dispatch => ({
   onClick: () => {
     dispatch(nextPlayer());
   }
 });
 
-let NextPlayerButton = ({ players, currentPlayerId, onClick }) => {
-  const currentPlayerName = players.find(p=> p.id === currentPlayerId).name;
+let NextPlayerButton = ({ onClick }) => {
   return (
-    <div>
-      <h3>Current player: {currentPlayerName}</h3>
-      <button onClick={onClick}>Next Player</button>
-    </div>
+    <button onClick={onClick}>Next Player</button>
   )
 
 }
 
 NextPlayerButton.propTypes = {
-  players: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    hits: PropTypes.objectOf(PropTypes.number)
-  }).isRequired).isRequired,
-  currentPlayerId: PropTypes.number.isRequired
+  onClick: PropTypes.func.isRequired
 }
 
 NextPlayerButton = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(NextPlayerButton)
 
