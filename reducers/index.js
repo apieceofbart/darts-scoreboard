@@ -142,7 +142,8 @@ function players(players = [], action) {
 const dartsApp = undoable(main, {
   filter: function filterActions(action, currentState, previousHistory) {
     if (action.type === ADD_PLAYER ||
-      (action.type === CHANGE_GAME_STAGE && action.stage === DURING_GAME)
+      previousHistory.present.gameStage === AFTER_GAME ||
+      previousHistory.present.gameStage === BEFORE_GAME
     ) {
       return false;
     }
