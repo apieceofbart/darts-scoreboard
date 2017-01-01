@@ -22,9 +22,16 @@ const isValidHit = (hits, currentHit) => {
   return typeof hits[currentHit] === 'number';
 }
 
+const hasPlayerClosedAll = player => Object.keys(player.hits).filter(h => player.hits[h] < 3).length === 0;
+
+const hasLeastPoints = (player, players) => {
+  return player === players.find(p => p.score === Math.min(...players.map(p => p.score)));
+}
+
 const isGameOver = (players) => {
   for (let i = 0; i < players.length; i++) {
-    if (Object.keys(players[i].hits).filter(h => players[i].hits[h] < 3).length === 0) return true
+    const player = players[i];
+    if (hasPlayerClosedAll(player) && hasLeastPoints(player, players)) return true
   }
   return false;
 }
