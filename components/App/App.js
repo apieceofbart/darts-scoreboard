@@ -53,6 +53,7 @@ let App = ({ gameStage, startGame, goToBeforeGame, winner }) => {
       return (
         <div>
           <h1>The winner is {winner.name}!</h1>
+          <ScoreTable />
           <button onClick={goToBeforeGame}>New game</button>
         </div>
       );

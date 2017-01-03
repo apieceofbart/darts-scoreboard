@@ -1,11 +1,11 @@
 export const hits = {
   25: 0,
-  20: 0,
-  19: 0,
-  18: 0,
-  17: 0,
-  16: 0,
-  15: 0
+  20: 3,
+  19: 3,
+  18: 3,
+  17: 3,
+  16: 3,
+  15: 3
 }
 
 export const BEFORE_GAME = 0;
@@ -25,6 +25,7 @@ export const initialStore = {
     currentPlayerId: 0,
     gameStage: BEFORE_GAME,
     lastHit: {},
-    currentRound: 1
+    currentRound: 1,
+    winner: null
   }
 };

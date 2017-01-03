@@ -28,11 +28,19 @@ const hasLeastPoints = (player, players) => {
   return player === players.find(p => p.score === Math.min(...players.map(p => p.score)));
 }
 
+const calculateFinalScores = players =>
+  players.map(player => {
+    const penalty = Object.keys(player.hits).reduce((a,b) => a + (3 - Math.min(3,player.hits[b]))*b, 0);
+
+    return {...player, score: player.score + penalty}
+  });
+
 const calculateWinner = players => {
-  if (getWinner(players)) return getWinner(players);
+  if (getWinnerBeforeEnd(players)) return getWinnerBeforeEnd(players);
+  return players.find(player => player.score === Math.min(...players.map(p => p.score)));
 }
 
-const getWinner = players => {
+const getWinnerBeforeEnd = players => {
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
     if (hasPlayerClosedAll(player) && hasLeastPoints(player, players)) return player
@@ -86,7 +94,7 @@ function main(state = initialStore.present, action) {
       return {...state, players: updatedPlayers, currentPlayerId};
     case RECORD_HIT:
       if (!isValidHit(hits, action.hit)) return state;
-      const w = getWinner(updatedPlayers);
+      const w = getWinnerBeforeEnd(updatedPlayers);
       const newGameStage =  w ? AFTER_GAME : DURING_GAME;
 
       return {...state, players: updatedPlayers, lastHit: action, gameStage: newGameStage, winner: w}
@@ -97,7 +105,9 @@ function main(state = initialStore.present, action) {
       const [ newCurrentPlayerId, newCurrentRound ] = (indexOfPlayer === players.length - 1) ? [0, state.currentRound + 1] : [indexOfPlayer + 1, state.currentRound ];
       currentPlayerId = players[newCurrentPlayerId].id;
       if (newCurrentRound > MAX_ROUNDS) {
-        return {...state, gameStage: AFTER_GAME }
+        const newPlayers = calculateFinalScores(state.players);
+        const calculatedWinner = calculateWinner(newPlayers);
+        return {...state, players: newPlayers, winner: calculatedWinner, currentPlayerId: calculatedWinner.id, gameStage: AFTER_GAME }
       } else {
         return {...state, currentPlayerId, currentRound: newCurrentRound}
       }
