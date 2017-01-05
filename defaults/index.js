@@ -11,7 +11,6 @@ export const hits = {
 export const BEFORE_GAME = 0;
 export const DURING_GAME = 1;
 export const AFTER_GAME = 2;
-export const MAX_ROUNDS = 3;
 
 export const initialStore = {
   past: {},
@@ -26,6 +25,7 @@ export const initialStore = {
     gameStage: BEFORE_GAME,
     lastHit: {},
     currentRound: 1,
-    winner: null
+    winner: null,
+    rounds: 20
   }
 };

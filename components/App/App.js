@@ -8,6 +8,7 @@ import NextPlayerButton from '../NextPlayerButton/NextPlayerButton'
 import HitsHistory from '../HitsHistory/HitsHistory'
 import UndoRedo from '../UndoRedo/UndoRedo'
 import CurrentState from '../CurrentState/CurrentState'
+import RoundsInput from '../RoundsInput/RoundsInput'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import { changeGameStage } from '../../actions'
 import { BEFORE_GAME, DURING_GAME, AFTER_GAME } from '../../defaults/'
@@ -35,6 +36,7 @@ let App = ({ gameStage, startGame, goToBeforeGame, winner }) => {
         <div>
           <AddPlayer />
           <PlayersList />
+          <RoundsInput />
           <button onClick={startGame}>Start game</button>
         </div>
       );

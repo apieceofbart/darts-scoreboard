@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { MAX_ROUNDS } from '../../defaults/'
 
-const mapStateToProps = state => ({ players: state.present.players, currentRound: state.present.currentRound, currentPlayerId: state.present.currentPlayerId });
+const mapStateToProps = state => ({ rounds: state.present.rounds, players: state.present.players, currentRound: state.present.currentRound, currentPlayerId: state.present.currentPlayerId });
 
-let CurrentState = ({ players, currentRound, currentPlayerId }) => {
+let CurrentState = ({ rounds, players, currentRound, currentPlayerId }) => {
   const currentPlayerName = players.find(p=> p.id === currentPlayerId).name;
   return (
     <div>
-      <h4>Round {currentRound}/{MAX_ROUNDS}</h4>
+      <h4>Round {currentRound}/{rounds}</h4>
       <h3>Current player: {currentPlayerName}</h3>
     </div>
   )

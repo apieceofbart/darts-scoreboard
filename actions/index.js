@@ -7,6 +7,7 @@ export const MOVE_PLAYER_UP = 'MOVE_PLAYER_UP';
 export const MOVE_PLAYER_DOWN = 'MOVE_PLAYER_DOWN';
 export const NEXT_PLAYER = 'NEXT_PLAYER';
 export const CHANGE_GAME_STAGE = 'CHANGE_GAME_STAGE';
+export const UPDATE_ROUNDS = 'UPDATE_ROUNDS';
 import { initialStore } from '../defaults/'
 
 let nextPlayerId = initialStore.present.players.length || 0;
@@ -75,5 +76,12 @@ export function changeGameStage(stage) {
   return {
     type: CHANGE_GAME_STAGE,
     stage
+  }
+}
+
+export function updateRounds(rounds) {
+  return {
+    type: UPDATE_ROUNDS,
+    rounds
   }
 }

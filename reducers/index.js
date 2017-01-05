@@ -1,6 +1,6 @@
 import undoable, { excludeAction } from 'redux-undo'
-import { ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, CHANGE_GAME_STAGE } from '../actions'
-import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME, MAX_ROUNDS, initialStore } from '../defaults/'
+import { UPDATE_ROUNDS, ADD_PLAYER, REMOVE_PLAYER, EDIT_PLAYER, CHANGE_SCORE, RECORD_HIT, MOVE_PLAYER_UP, MOVE_PLAYER_DOWN, NEXT_PLAYER, CHANGE_GAME_STAGE } from '../actions'
+import { hits, BEFORE_GAME, DURING_GAME, AFTER_GAME, initialStore } from '../defaults/'
 
 const isPlayerFirst = (players, player) => players.indexOf(player) === 0;
 
@@ -104,13 +104,15 @@ function main(state = initialStore.present, action) {
       const indexOfPlayer = players.indexOf(currentPlayer);
       const [ newCurrentPlayerId, newCurrentRound ] = (indexOfPlayer === players.length - 1) ? [0, state.currentRound + 1] : [indexOfPlayer + 1, state.currentRound ];
       currentPlayerId = players[newCurrentPlayerId].id;
-      if (newCurrentRound > MAX_ROUNDS) {
+      if (newCurrentRound > state.rounds) {
         const newPlayers = calculateFinalScores(state.players);
         const calculatedWinner = calculateWinner(newPlayers);
         return {...state, players: newPlayers, winner: calculatedWinner, currentPlayerId: calculatedWinner.id, gameStage: AFTER_GAME }
       } else {
         return {...state, currentPlayerId, currentRound: newCurrentRound}
       }
+    case UPDATE_ROUNDS:
+      return {...state, rounds: rounds(state.rounds, action)}
     default:
       return {...state, players: updatedPlayers}
   }
@@ -165,6 +167,15 @@ function players(players = [], action) {
       }
     default:
       return players
+  }
+}
+
+function rounds(state = 20, action) {
+  switch (action.type) {
+    case UPDATE_ROUNDS:
+      return action.rounds;
+    default:
+      return state;
   }
 }
 
