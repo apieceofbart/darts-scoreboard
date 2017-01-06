@@ -12,7 +12,7 @@ const mapStateToProps = state => ({ rounds: state.present.rounds })
 
 let RoundsInput = ({ onChange, rounds }) => {
   return (
-    <label for="rounds">Number of rounds:
+    <label htmlFor="rounds">Number of rounds:
       <input name="rounds" type="number" defaultValue = {rounds} onChange={onChange}/>
     </label>
   )
