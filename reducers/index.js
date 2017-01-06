@@ -32,12 +32,12 @@ const calculateFinalScores = players =>
   players.map(player => {
     const penalty = Object.keys(player.hits).reduce((a,b) => a + (3 - Math.min(3,player.hits[b]))*b, 0);
 
-    return {...player, score: player.score + penalty}
+    return {...player, penalty}
   });
 
 const calculateWinner = players => {
   if (getWinnerBeforeEnd(players)) return getWinnerBeforeEnd(players);
-  return players.find(player => player.score === Math.min(...players.map(p => p.score)));
+  return players.find(player => (player.score + player.penalty) === Math.min(...players.map(p => p.score + p.penalty)));
 }
 
 const getWinnerBeforeEnd = players => {

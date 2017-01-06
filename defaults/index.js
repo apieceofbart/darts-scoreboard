@@ -1,6 +1,6 @@
 export const hits = {
   25: 0,
-  20: 3,
+  20: 0,
   19: 3,
   18: 3,
   17: 3,
@@ -17,9 +17,9 @@ export const initialStore = {
   future: {},
   present: {
     players: [
-      { id: 0, name: "baro", score: 0, hits},
-      { id: 1, name: "jaro", score: 0, hits},
-      { id: 2, name: "kuba", score: 0, hits}
+      { id: 0, name: "baro", score: 0, penalty: 0, hits},
+      { id: 1, name: "jaro", score: 0, penalty: 0, hits},
+      { id: 2, name: "kuba", score: 0, penalty: 0, hits}
     ],
     currentPlayerId: 0,
     gameStage: BEFORE_GAME,

@@ -9,7 +9,9 @@ let ScoreTable = ({ players, currentPlayerId }) => {
   const tableHeader = (
     <tr>
       <th key="player">Player</th>
+      <th key="total">Total</th>
       <th key="score">Score</th>
+      <th key="penalty">Penalty</th>
       {hits}
     </tr>
   )
@@ -18,16 +20,22 @@ let ScoreTable = ({ players, currentPlayerId }) => {
       const shownHits = Math.min(player.hits[hit],3);
       return <td key={hit}>{shownHits}</td>;
     });
-
     const highlight = (player.id === currentPlayerId) ? 'highlight' : '';
+    const total = player.score + player.penalty;
 
     return (
       <tr key={player.id} className={highlight}>
         <td key="name">
           {player.name}
         </td>
+        <td key="total">
+          {total}
+        </td>
         <td key="score">
           {player.score}
+        </td>
+        <td key="penalty">
+          {player.penalty}
         </td>
         {playerHits}
       </tr>
